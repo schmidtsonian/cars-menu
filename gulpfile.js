@@ -7,7 +7,7 @@ var sass            = require('gulp-sass');
 var jade            = require('gulp-jade');
 var ts              = require('gulp-typescript');
 var mainBowerFiles  = require('gulp-main-bower-files');
-
+var imagemin        = require('gulp-imagemin');
 
 var sourcemaps      = require('gulp-sourcemaps');
 var rename          = require('gulp-rename');
@@ -25,6 +25,7 @@ var path = {
         vendor: 'vendor.js',
         filter: ['*', '_*.*']
     },
+
     styles  : {
         src  : 'app/styles/**/*.scss',
         dest : 'public/css/',
@@ -33,6 +34,10 @@ var path = {
         src  : 'app/views/**/*.jade',
         dest : 'public/',
         filter: ['*', '**/*', '!_*.*', '!*/_*.*']
+    },
+    images  : {
+        src  :'app/assets/images/**/*.+(png|jpg|gif|svg)',
+        dest : 'public/images'
     },
     bower   : {
         src : './bower.json'
@@ -47,7 +52,12 @@ gulp.task('webserver', function() {
         open: true,
     });
 });
- 
+
+gulp.task('imagemin', function(){
+    return gulp.src(path.images.src)
+        .pipe(imagemin())
+        .pipe(gulp.dest(path.images.dest))
+} );
 
 gulp.task('main-bower-files', function() {
     return gulp.src(path.bower.src)
@@ -102,6 +112,7 @@ gulp.task('watch', function () {
     gulp.watch(path.views.src, ['views']);
     gulp.watch(path.styles.src, ['styles']);
     gulp.watch(path.scripts.src, ['scripts']);
+    gulp.watch(path.images.src, ['imagemin']);
 });
 
-gulp.task('default', ['main-bower-files', 'scripts', 'styles', 'views', 'webserver', 'watch']);
+gulp.task('default', ['main-bower-files', 'scripts', 'styles', 'imagemin', 'views', 'webserver', 'watch']);
