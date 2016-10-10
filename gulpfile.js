@@ -19,6 +19,8 @@ var bourbon         = require('node-bourbon');
 var connect         = require('gulp-connect');
 var del             = require('del');
 var runSequence     = require('run-sequence');
+var open            = require('gulp-open');
+
 
 var path = {
     scripts : {
@@ -58,6 +60,12 @@ gulp.task('webserver', function() {
         directoryListing: true
     });
 });
+
+gulp.task('uri', function(){
+    gulp.src(__filename)
+    .pipe(open({uri: 'http://localhost:8080'}));
+});
+
 
 gulp.task('clean:public', function() {
   return del.sync('public');
@@ -154,6 +162,8 @@ gulp.task('watch', function () {
     'watch'
 ]);*/
 
+//TODO:
+//https://github.com/addyosmani/critical-path-css-demo
 gulp.task('default', function(callback) {
   runSequence(
     'clean:public', [
@@ -164,7 +174,8 @@ gulp.task('default', function(callback) {
         'images',
         'fonts',
         'views'], 
-    'webserver', 
+    'webserver',
+    'uri', 
     'watch',
     callback);
 });
