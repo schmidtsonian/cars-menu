@@ -1,4 +1,6 @@
 /// <reference path="definitions/jquery/jquery.d.ts" />
+/// <reference path="Loader.ts"/>
+
 
 //TODO: Refactor this shiet!!!
 $.fn.isOnScreen = function(){
@@ -38,3 +40,30 @@ $(window).on('load scroll resize', function(){
 });
 
 //TODO: preload images and make an intro!
+
+module app.menu{
+
+    import Loader =  app.menu.Loader;
+
+    export class Main{
+
+
+        private loader: Loader;
+
+        constructor(){
+
+            this.loader = new Loader()
+        }
+
+        init() {
+
+            this.loader.onLoadAllCallback = ()=>{console.log(1);};
+            this.loader.init();
+        }
+
+    }
+
+    // Init all stuff.
+    export const mainView = new Main();
+    mainView.init();
+}

@@ -6,7 +6,9 @@ mixin get_card_info(title, subtitle, description)
                 h4=title
                 h3=subtitle
                 p=description
-        .block__image.shadow
+        .block__image.shadow(
+        data-loadimage='../images/slmf-manganecio.png',
+        style='background-image: url(../images/slmf-manganecio.png)')
 
 doctype html
 html(lang="en")

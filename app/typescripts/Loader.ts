@@ -1,10 +1,12 @@
 /// <reference path="definitions/jquery/jquery.d.ts"/>
 
-namespace app {
+namespace app.menu {
 
     export class Loader {
 
         private images: Array<{}> = [];
+        private imagesLoaded: number;
+        public onLoadAllCallback: Function;
 
         init(): this{
 
@@ -15,14 +17,42 @@ namespace app {
             return this;
         }
 
+
         private cacheElements(): this {
+
+            $( 'body' )
+            .find( '[data-loadimage]' )
+            .each( (index, value) => {
+                
+                this.images
+                    .push( $( value )
+                    .data( 'loadimage' ) );
+            } );
 
             return this;
         }
 
         private bindings(): this {
 
+            this.images.forEach( ( src ) => {
+                console.log(src)
+                var img: any = new Image();
+                img.src = src;
+                img.onload = () => { this.onLoadImage(); };
+                img.onerror = () => { this.onLoadImage(); }
+            });
             return this;
+        }
+
+        private onLoadImage(){
+
+            this.imagesLoaded++;
+            if( this.imagesLoaded >= this.images.length){
+
+                if (typeof this.onLoadAllCallback == "function") {
+                    this.onLoadImage();
+                }
+            }
         }
     }
 }
