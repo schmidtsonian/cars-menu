@@ -8,6 +8,7 @@ var jade            = require('gulp-jade');
 var ts              = require('gulp-typescript');
 var mainBowerFiles  = require('gulp-main-bower-files');
 var imagemin        = require('gulp-imagemin');
+var cache           = require('gulp-cache');
 
 var sourcemaps      = require('gulp-sourcemaps');
 var rename          = require('gulp-rename');
@@ -16,6 +17,8 @@ var plumber         = require('gulp-plumber');
 var bourbon         = require('node-bourbon');
 
 var connect         = require('gulp-connect');
+var del             = require('del');
+var runSequence     = require('run-sequence');
 
 var path = {
     scripts : {
@@ -39,6 +42,10 @@ var path = {
         src  :'app/assets/images/**/*.+(png|jpg|gif|svg)',
         dest : 'public/images'
     },
+    fonts   : {
+        src  : 'app/fonts/**/*',
+        dest : 'public/fonts'
+    },
     bower   : {
         src : './bower.json'
     }
@@ -48,16 +55,35 @@ gulp.task('webserver', function() {
     connect.server({
         root: 'public',
         livereload: true,
-        directoryListing: true,
-        open: true,
+        directoryListing: true
     });
 });
+
+gulp.task('clean:public', function() {
+  return del.sync('public');
+})
+
+gulp.task('fonts', function() {
+  return gulp.src(path.fonts.src)
+    .pipe(gulp.dest(path.fonts.dest))
+    .pipe(connect.reload());
+})
 
 gulp.task('imagemin', function(){
     return gulp.src(path.images.src)
         .pipe(imagemin())
         .pipe(gulp.dest(path.images.dest))
+        .pipe(connect.reload());
 } );
+
+gulp.task('images', function(){
+  return gulp.src(path.images.src)
+  // Caching images that ran through imagemin
+  .pipe(cache(imagemin({
+      interlaced: true
+    })))
+  .pipe(gulp.dest(path.images.dest))
+});
 
 gulp.task('main-bower-files', function() {
     return gulp.src(path.bower.src)
@@ -113,6 +139,32 @@ gulp.task('watch', function () {
     gulp.watch(path.styles.src, ['styles']);
     gulp.watch(path.scripts.src, ['scripts']);
     gulp.watch(path.images.src, ['imagemin']);
+    gulp.watch(path.images.src, ['images']);
+    gulp.watch(path.images.src, ['fonts']);
 });
 
-gulp.task('default', ['main-bower-files', 'scripts', 'styles', 'imagemin', 'views', 'webserver', 'watch']);
+/*gulp.task('default', [
+    'main-bower-files', 
+    'scripts', 
+    'styles', 
+    'imagemin', 
+    'images', 
+    'views', 
+    'webserver', 
+    'watch'
+]);*/
+
+gulp.task('default', function(callback) {
+  runSequence(
+    'clean:public', [
+        'main-bower-files', 
+        'scripts', 
+        'styles', 
+        'imagemin', 
+        'images',
+        'fonts',
+        'views'], 
+    'webserver', 
+    'watch',
+    callback);
+});
