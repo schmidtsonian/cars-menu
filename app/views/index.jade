@@ -22,8 +22,13 @@ html(lang="en")
         link(rel="stylesheet", type="text/css", href="https://fonts.googleapis.com/css?family=Oswald:400,700|Playfair+Display")
         link(rel="stylesheet", type="text/css", href="/css/main.css")
 
-    body
-        
+    body.js-loading
+        #js-spinner.spinner.spinner--open.full
+            span.spinner__content.center
+                span.spinner__line
+                span.spinner__line
+                span.spinner__line
+
         .wrapper
             .wrapper__bg
             header.js-block

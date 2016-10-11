@@ -148,18 +148,6 @@
     border-radius: 50%;
 }
 
-p{
-   text-align: right;
-   position: absolute;
-   bottom: 20px;
-   right: 20px;
-   i{
-      display: inline-block;
-      opacity: 0;
-      @include transition(all 0.3s $ease-in-out-cubic);
-      @include transform(translateX(-6px))
-   }
-}
 
 .full{
     width: 100%;

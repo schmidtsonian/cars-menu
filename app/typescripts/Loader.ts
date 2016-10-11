@@ -20,6 +20,7 @@ namespace app.menu {
 
         private cacheElements(): this {
 
+            this.imagesLoaded = 1;
             $( 'body' )
             .find( '[data-loadimage]' )
             .each( (index, value) => {
@@ -35,7 +36,7 @@ namespace app.menu {
         private bindings(): this {
 
             this.images.forEach( ( src ) => {
-                console.log(src)
+
                 var img: any = new Image();
                 img.src = src;
                 img.onload = () => { this.onLoadImage(); };
@@ -50,7 +51,7 @@ namespace app.menu {
             if( this.imagesLoaded >= this.images.length){
 
                 if (typeof this.onLoadAllCallback == "function") {
-                    this.onLoadImage();
+                    this.onLoadAllCallback();
                 }
             }
         }

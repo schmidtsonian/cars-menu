@@ -12,7 +12,7 @@ $.fn.isOnScreen = function(){
         left : win.scrollLeft()
     };
     viewport.right = viewport.left + win.width();
-    viewport.bottom = viewport.top + win.height();
+    viewport.bottom = viewport.top + (win.height());
     
     var bounds = this.offset();
     bounds.right = bounds.left + this.outerWidth();
@@ -36,11 +36,11 @@ $(window).on('load scroll resize', function(){
         }else{
           $el.removeClass('visible')
         }
-    })
+    });
 });
-
-//TODO: preload images and make an intro!
-
+$(window).on('beforeunload', function() {
+    $(window).scrollTop(0); 
+});
 module app.menu{
 
     import Loader =  app.menu.Loader;
@@ -57,7 +57,14 @@ module app.menu{
 
         init() {
 
-            this.loader.onLoadAllCallback = ()=>{console.log(1);};
+            this.loader.onLoadAllCallback = () => {
+                $('#js-spinner').addClass('spinner--close')
+
+                setTimeout(()=>{
+                    $('#js-spinner').remove();
+                    $('body').removeClass('js-loading');
+                }, 1650)
+            };
             this.loader.init();
         }
 
