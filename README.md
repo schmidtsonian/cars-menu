@@ -1,4 +1,4 @@
-# Scrolling effect experiment
+# Scrolling interaction experiment
 
 This is a prototype based on [this](https://dribbble.com/shots/2285816-Scrolling-effect) design.
 
