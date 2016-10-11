@@ -63,7 +63,7 @@ module app.menu{
                 setTimeout(()=>{
                     $('#js-spinner').remove();
                     $('body').removeClass('js-loading');
-                }, 1650)
+                }, 950)
             };
             this.loader.init();
         }

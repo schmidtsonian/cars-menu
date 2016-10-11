@@ -32,7 +32,7 @@
 
         height: 100%;
 
-        background-color: #636b72;
+        background-color: #2d3a4b;
         box-shadow: 0 5px 6px rgba(10,10,10, 0);
     }
 }
@@ -46,7 +46,6 @@
 
     100% {
         top: 240px;
-
         height: 100%;
         width: 550px;
     }
@@ -98,8 +97,7 @@
 }
 
 .spinner--close {
-    @include transition(opacity 0.75s $ease-in-out-quart 0.9s, background-color 0.45s $ease-in-out-quart 0.45s);
-    opacity: 0;
+    @include transition(background-color 0.45s $ease-in-out-quart 0.45s);
     background-color: #d4dbe3;
 
     .spinner__content {

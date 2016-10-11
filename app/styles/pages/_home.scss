@@ -2,6 +2,7 @@ $easeInOutCubic: $ease-in-out-cubic;
 $easeDurationDelay: 0.35s;
 $easeDurationPrimary: 0.45s;
 $easeDurationSecundary: 0.75s;
+$bgColorHeaderContent: #636b72;
 
 body {
     background-color: #d4dbe3;
@@ -88,20 +89,6 @@ h3 {
     }
 }
 
-
-p{
-   text-align: right;
-   position: absolute;
-   bottom: 20px;
-   right: 20px;
-   i{
-      display: inline-block;
-      opacity: 0;
-      @include transition(all 0.3s $ease-in-out-cubic);
-      @include transform(translateX(-6px))
-   }
-}
-
 .shadow {
     box-shadow: 5px 5px 80px rgba(45, 58, 75, .4);
 }
@@ -133,10 +120,11 @@ header {
     position: relative;
     left: 120px;
 
-    width: 470px;
-    padding: 60px;
+    width: 400px;
+    padding: 60px 70px;
 
-    background-color: #636b72;
+    background-color: rgba($bgColorHeaderContent, 1);
+    box-shadow: 5px 5px 80px rgba(45, 58, 75, 0.4);
     p{
         position: relative;
     }
@@ -231,5 +219,34 @@ header {
 
     .block__content__container {
         opacity: 1;
+    }
+}
+
+.header__content{
+
+
+    @include transition(background 1.45s $ease-in-out-quint 0.55s, box-shadow 1.45s $ease-in-out-quint 0.55s);
+}
+h1, h2, .header__content p{
+    opacity: 1;
+    @include transform(translateY(-25px));
+    @include transition(opacity 0.75s $ease-in-out-quart, transform 0.75s $ease-in-out-quart);
+}
+h2{
+    @include transition-delay(0.15s, 0.15s);
+}
+.header__content p{
+    @include transition-delay(0.25s, 0.25s);
+}
+
+.js-loading{
+
+    h1,h2, .header__content p{
+        opacity: 0;
+        @include transform(translateY(0));
+    } 
+    .header__content{
+        background-color: rgba($bgColorHeaderContent, 0);
+        box-shadow: 5px 5px 80px rgba(45, 58, 75, 0);
     }
 }
